@@ -282,6 +282,7 @@ var defaults = {
   snapFrequency: 15, // the number of times per second (Hz) that snap checks done (lower is less expensive)
   noEdgeEventsInDraw: false, // set events:no to edges during draws, prevents mouseouts on compounds
   disableBrowserGestures: true, // during an edge drawing gesture, disable browser gestures such as two-finger trackpad swipe and pinch-to-zoom
+  addElements: null,
   handlePosition: function handlePosition(node) {
     return 'middle top'; // sets the position of the handle in the format of "X-AXIS Y-AXIS" such as "left top", "middle top"
   },
@@ -320,6 +321,10 @@ var defaults = {
   },
   start: function start(sourceNode) {
     // fired when edgehandles interaction starts (drag on handle)
+  },
+  addEles: function addEles(cy, eles) {
+    // determines how the elements are added to the graph.
+    return cy.add(eles);
   },
   complete: function complete(sourceNode, targetNode, addedEles) {
     // fired when edgehandles is done and elements are added
@@ -522,13 +527,15 @@ function makeEdges() {
     added = added.merge(interNode).merge(source2inter).merge(inter2target);
   } else {
     // flat
-    var source2target = cy.add(getEleJson({
+    var source2target = getEleJson({
       group: 'edges',
       data: {
         source: source.id(),
         target: target.id()
       }
-    }, options.edgeParams(source, target, 0), classes));
+    }, options.edgeParams(source, target, 0), classes);
+
+    source2target = options.addEles(cy, [source2target]);
 
     added = added.merge(source2target);
   }

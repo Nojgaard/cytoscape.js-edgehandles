@@ -8,6 +8,7 @@ let defaults = {
   snapFrequency: 15, // the number of times per second (Hz) that snap checks done (lower is less expensive)
   noEdgeEventsInDraw: false, // set events:no to edges during draws, prevents mouseouts on compounds
   disableBrowserGestures: true, // during an edge drawing gesture, disable browser gestures such as two-finger trackpad swipe and pinch-to-zoom
+  addElements: null,
   handlePosition: function( node ){
     return 'middle top'; // sets the position of the handle in the format of "X-AXIS Y-AXIS" such as "left top", "middle top"
   },
@@ -46,6 +47,10 @@ let defaults = {
   },
   start: function( sourceNode ){
     // fired when edgehandles interaction starts (drag on handle)
+  },
+  addEles: function(cy, eles) {
+    // determines how the elements are added to the graph.
+    return cy.add(eles);
   },
   complete: function( sourceNode, targetNode, addedEles ){
     // fired when edgehandles is done and elements are added

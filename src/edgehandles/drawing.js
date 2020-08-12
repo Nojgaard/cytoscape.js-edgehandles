@@ -116,7 +116,7 @@ function makeEdges( preview = false ) {
 
     added = added.merge( interNode ).merge( source2inter ).merge( inter2target );
   } else { // flat
-    let source2target = cy.add(
+    let source2target =
       getEleJson(
         {
           group: 'edges',
@@ -127,8 +127,10 @@ function makeEdges( preview = false ) {
         },
         options.edgeParams( source, target, 0 ),
         classes
-      )
+      
     );
+
+    source2target = options.addEles(cy, [source2target]);
 
     added = added.merge( source2target );
   }
